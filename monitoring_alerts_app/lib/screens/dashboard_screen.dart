@@ -9,6 +9,11 @@ import '../models/preferences.dart';
 import 'preferences_screen.dart';
 import 'history_screen.dart';
 
+/// Tela de Dashboard - Ponto central do sistema de monitoramento
+/// 
+/// Esta tela permite ao usuário visualizar o estado atual do sistema,
+/// acionar o botão de pânico, visualizar o status da API e configurar
+/// as preferências de notificação
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
@@ -28,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _fetchApiData();
   }
 
+  /// Busca dados da API para demonstrar a integração
   Future<void> _fetchApiData() async {
     setState(() {
       _apiLoading = true;
@@ -43,23 +49,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
         });
       } else {
         setState(() {
-          _apiError = 'Failed to load API data';
+          _apiError = 'Falha ao carregar dados da API';
           _apiLoading = false;
         });
       }
     } catch (e) {
       setState(() {
-        _apiError = 'Error: $e';
+        _apiError = 'Erro: $e';
         _apiLoading = false;
       });
     }
   }
 
+  /// Simula o disparo de um alerta/panico
+  /// 
+  /// Esta função registra o evento no banco de dados e envia uma notificação
+  /// com base nas preferências do usuário
   Future<void> _simulateAlert() async {
     final prefs = context.read<PreferencesService>().preferences;
     final dbService = context.read<DatabaseService>();
     
-    // Create event record
+    // Cria registro do evento
     final event = Event(
       type: 'ALERT',
       timestamp: DateTime.now(),
@@ -68,7 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     
     await dbService.insertEvent(event);
     
-    // Show notification based on preferences
+    // Mostra notificação com base nas preferências
     if (prefs.criticalMode) {
       await NotificationService.showCriticalNotification(
         title: 'CRITICAL ALERT',
@@ -83,10 +93,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
     
-    // Show visual feedback
+    // Mostra feedback visual
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Alert triggered successfully!'),
+        content: Text('Alerta disparado com sucesso!'),
         backgroundColor: Colors.red,
       ),
     );

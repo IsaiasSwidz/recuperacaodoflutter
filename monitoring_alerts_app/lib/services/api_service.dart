@@ -1,10 +1,16 @@
+/// Serviço de API - Gerencia requisições HTTP para APIs externas
+/// 
+/// Esta classe fornece métodos para realizar requisições HTTP para APIs externas,
+/// demonstrando a integração com serviços web, como parte dos requisitos do projeto
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl = 'https://jsonplaceholder.typicode.com';
 
-  // Get user data from public API
+  /// Obtém dados de usuário da API pública
+  /// 
+  /// Faz uma requisição GET para obter informações de um usuário específico
   static Future<Map<String, dynamic>?> fetchUser(int userId) async {
     try {
       final response = await http.get(
@@ -15,15 +21,17 @@ class ApiService {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw Exception('Failed to load user: ${response.statusCode}');
+        throw Exception('Falha ao carregar usuário: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching user: $e');
+      print('Erro ao buscar usuário: $e');
       return null;
     }
   }
 
-  // Post a test request to public API
+  /// Cria um novo post na API pública (recurso de teste)
+  /// 
+  /// Faz uma requisição POST para criar um novo post na API
   static Future<Map<String, dynamic>?> createPost(String title, String body, int userId) async {
     try {
       final response = await http.post(
@@ -34,15 +42,17 @@ class ApiService {
       if (response.statusCode == 201) {
         return json.decode(response.body);
       } else {
-        throw Exception('Failed to create post: ${response.statusCode}');
+        throw Exception('Falha ao criar post: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error creating post: $e');
+      print('Erro ao criar post: $e');
       return null;
     }
   }
 
-  // Get posts from public API
+  /// Obtém posts da API pública
+  /// 
+  /// Faz uma requisição GET para obter uma lista de posts
   static Future<List<dynamic>?> fetchPosts() async {
     try {
       final response = await http.get(
@@ -53,10 +63,10 @@ class ApiService {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw Exception('Failed to load posts: ${response.statusCode}');
+        throw Exception('Falha ao carregar posts: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching posts: $e');
+      print('Erro ao buscar posts: $e');
       return null;
     }
   }

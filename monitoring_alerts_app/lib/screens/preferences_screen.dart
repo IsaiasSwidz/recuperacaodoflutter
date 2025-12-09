@@ -1,8 +1,14 @@
+/// Tela de Preferências - Configurações do sistema de notificações
+/// 
+/// Esta tela permite ao usuário configurar os tipos de notificação
+/// (Vibração, Som e Banner) e alterar o Modo Crítico que permite
+/// alertas mesmo com volume baixo ou modo Não Perturbe ativado
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/preferences_service.dart';
 import '../models/preferences.dart';
 
+/// Tela que exibe as opções de preferências do usuário
 class PreferencesScreen extends StatelessWidget {
   const PreferencesScreen({Key? key}) : super(key: key);
 
@@ -12,7 +18,7 @@ class PreferencesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preferences'),
+        title: const Text('Preferências'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -20,7 +26,7 @@ class PreferencesScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Notification Settings',
+              'Configurações de Notificação',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -30,16 +36,16 @@ class PreferencesScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SwitchListTile(
-                      title: const Text('Vibration'),
-                      subtitle: const Text('Enable vibration for notifications'),
+                      title: const Text('Vibração'),
+                      subtitle: const Text('Habilitar vibração para notificações'),
                       value: prefs.vibrationEnabled,
                       onChanged: (value) => 
                         context.read<PreferencesService>().toggleVibration(),
                     ),
                     const Divider(),
                     SwitchListTile(
-                      title: const Text('Sound'),
-                      subtitle: const Text('Enable sound for notifications'),
+                      title: const Text('Som'),
+                      subtitle: const Text('Habilitar som para notificações'),
                       value: prefs.soundEnabled,
                       onChanged: (value) => 
                         context.read<PreferencesService>().toggleSound(),
@@ -47,7 +53,7 @@ class PreferencesScreen extends StatelessWidget {
                     const Divider(),
                     SwitchListTile(
                       title: const Text('Banner'),
-                      subtitle: const Text('Show banner notifications'),
+                      subtitle: const Text('Mostrar notificações em banner'),
                       value: prefs.bannerEnabled,
                       onChanged: (value) => 
                         context.read<PreferencesService>().toggleBanner(),
@@ -58,7 +64,7 @@ class PreferencesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Critical Mode',
+              'Modo Crítico',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -66,9 +72,9 @@ class PreferencesScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SwitchListTile(
-                  title: const Text('Critical Mode'),
+                  title: const Text('Modo Crítico'),
                   subtitle: const Text(
-                    'Force alerts even when device is in silent mode or Do Not Disturb is active'
+                    'Forçar alertas mesmo quando o dispositivo está no modo silencioso ou o Não Perturbe está ativo'
                   ),
                   value: prefs.criticalMode,
                   onChanged: (value) => 
@@ -84,14 +90,14 @@ class PreferencesScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'About Critical Mode',
+                      'Sobre o Modo Crítico',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'When Critical Mode is enabled, the app will attempt to bypass system settings '
-                      'like silent mode and Do Not Disturb to ensure important alerts are delivered. '
-                      'This may require special permissions on some devices.',
+                      'Quando o Modo Crítico está habilitado, o aplicativo tentará contornar as configurações do sistema '
+                      'como modo silencioso e Não Perturbe para garantir que alertas importantes sejam entregues. '
+                      'Isso pode exigir permissões especiais em alguns dispositivos.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],

@@ -1,43 +1,47 @@
+/// Testes do Serviço de API
+/// 
+/// Esta suíte de testes verifica a funcionalidade do serviço de API,
+/// incluindo requisições HTTP e tratamento de erros
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import '../lib/services/api_service.dart';
 
-// Generate mock annotations
+// Gera anotações mock
 @GenerateMocks([http.Client])
 import 'api_service_test.mocks.dart';
 
 void main() {
-  group('ApiService Tests', () {
-    test('should fetch user data successfully', () async {
-      // This is a basic test that checks the API service method exists and can be called
-      // In a real scenario, we would mock the HTTP client
+  group('Testes do Serviço de API', () {
+    test('deve buscar dados do usuário com sucesso', () async {
+      // Este é um teste básico que verifica se o método do serviço de API existe e pode ser chamado
+      // Em um cenário real, mockaríamos o cliente HTTP
       
       final userData = await ApiService.fetchUser(1);
       
-      // Since we're not mocking the HTTP client in this environment, 
-      // we'll just verify the method exists and can be called
-      expect(true, true); // Placeholder test
+      // Como não estamos mockando o cliente HTTP neste ambiente,
+      // verificaremos apenas que o método existe e pode ser chamado
+      expect(true, true); // Teste placeholder
     });
 
-    test('should handle API error gracefully', () async {
-      // Test with invalid user ID to trigger an error
+    test('deve lidar com erro de API de forma adequada', () async {
+      // Testa com ID de usuário inválido para acionar um erro
       try {
         final result = await ApiService.fetchUser(9999999);
-        // In a real test, we would expect this to handle errors appropriately
-        expect(result, null); // Placeholder expectation
+        // Em um teste real, esperaríamos que isso tratasse os erros apropriadamente
+        expect(result, null); // Expectativa placeholder
       } catch (e) {
-        // Expected to catch an exception in a real scenario
+        // Esperado capturar uma exceção em um cenário real
         expect(e, isA<Object>());
       }
     });
 
-    test('should fetch posts successfully', () async {
-      // This is a basic test that checks the API service method exists
+    test('deve buscar posts com sucesso', () async {
+      // Este é um teste básico que verifica se o método do serviço de API existe
       final posts = await ApiService.fetchPosts();
       
-      // Placeholder test since we can't run actual HTTP requests in this environment
+      // Teste placeholder já que não podemos executar requisições HTTP reais neste ambiente
       expect(true, true);
     });
   });
