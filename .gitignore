@@ -1,28 +1,28 @@
 ```
-# Compressed files
-*.tar.xz
-
-# Flutter/Dart specific
-.dart_tool/
-.build/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-pubspec.lock
+# Compiled and build artifacts
+*.pyc
+__pycache__/
+*.o
+*.obj
+*.class
+*.dll
+*.so
+*.a
+*.exe
+*.out
 
 # Dependencies
 node_modules/
-.venv/
 venv/
-__pycache__/
-*.egg-info/
+.venv/
+.env
+.env.local
+*.env.*
+
+# Build outputs
 dist/
 build/
 target/
-.gradle/
-.cargo/
-.dart/
-.dart/
 .dart_tool/
 .pub/
 
@@ -32,18 +32,22 @@ target/
 *.swp
 *.swo
 
-# Environment
-.env
-.env.local
-.env.*
-
 # Editors
 .vscode/
 .idea/
 *.swp
 *.swo
 
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Testing
+.dart_test_cache/
 ```
+flutter.tar.xz

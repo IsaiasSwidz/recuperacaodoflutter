@@ -1,3 +1,8 @@
+/// Serviço de Banco de Dados - Gerencia eventos no SQLite
+/// 
+/// Esta classe gerencia o armazenamento local dos eventos de alerta
+/// usando SQLite, permitindo operações CRUD e notificando os ouvintes
+/// quando os dados são alterados
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -6,10 +11,16 @@ import '../models/event.dart';
 class DatabaseService extends ChangeNotifier {
   static Database? _database;
 
+  /// Inicializa o banco de dados
+  /// 
+  /// Abre ou cria o banco de dados SQLite para armazenamento local
   static Future<void> initialize() async {
     _database = await _initDatabase();
   }
 
+  /// Inicializa a instância do banco de dados
+  /// 
+  /// Cria o caminho para o banco de dados e configura a tabela de eventos
   static Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'events.db');
     return await openDatabase(
@@ -19,6 +30,9 @@ class DatabaseService extends ChangeNotifier {
     );
   }
 
+  /// Cria a tabela de eventos no banco de dados
+  /// 
+  /// Define a estrutura da tabela para armazenar eventos de alerta
   static Future<void> _createTable(Database db, int version) async {
     await db.execute('''
       CREATE TABLE events(
@@ -30,6 +44,10 @@ class DatabaseService extends ChangeNotifier {
     ''');
   }
 
+  /// Insere um novo evento no banco de dados
+  /// 
+  /// Converte o objeto Event para mapa e o insere na tabela
+  /// Notifica os ouvintes após a inserção
   Future<int> insertEvent(Event event) async {
     final db = _database;
     if (db == null) return Future.error('Database not initialized');
@@ -44,6 +62,9 @@ class DatabaseService extends ChangeNotifier {
     return id;
   }
 
+  /// Obtém todos os eventos do banco de dados
+  /// 
+  /// Retorna uma lista de eventos ordenados por timestamp em ordem decrescente
   Future<List<Event>> getAllEvents() async {
     final db = _database;
     if (db == null) return [];
@@ -55,6 +76,9 @@ class DatabaseService extends ChangeNotifier {
     });
   }
 
+  /// Exclui um evento específico do banco de dados
+  /// 
+  /// Remove o evento com o ID fornecido e notifica os ouvintes
   Future<void> deleteEvent(int id) async {
     final db = _database;
     if (db == null) return;
@@ -63,6 +87,9 @@ class DatabaseService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Limpa todos os eventos do banco de dados
+  /// 
+  /// Remove todos os registros da tabela de eventos e notifica os ouvintes
   Future<void> clearAllEvents() async {
     final db = _database;
     if (db == null) return;

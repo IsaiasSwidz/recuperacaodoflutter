@@ -1,19 +1,23 @@
+/// Testes do Serviço de Preferências
+/// 
+/// Esta suíte de testes verifica a funcionalidade do serviço de preferências,
+/// incluindo inicialização, alternância de configurações e persistência
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../lib/services/preferences_service.dart';
 import '../lib/models/preferences.dart';
 
 void main() {
-  group('PreferencesService Tests', () {
+  group('Testes do Serviço de Preferências', () {
     setUp(() {
-      // Initialize SharedPreferences with a mock implementation
+      // Inicializa SharedPreferences com uma implementação mock
       SharedPreferences.setMockInitialValues({});
     });
 
-    test('should initialize with default preferences', () async {
+    test('deve inicializar com preferências padrão', () async {
       final service = PreferencesService();
       
-      // Wait for initialization
+      // Aguarda inicialização
       await Future.delayed(const Duration(milliseconds: 100));
       
       expect(service.preferences.vibrationEnabled, true);
@@ -22,67 +26,67 @@ void main() {
       expect(service.preferences.criticalMode, false);
     });
 
-    test('should toggle vibration preference', () async {
+    test('deve alternar preferência de vibração', () async {
       final service = PreferencesService();
       
-      // Wait for initialization
+      // Aguarda inicialização
       await Future.delayed(const Duration(milliseconds: 100));
       
-      // Initially true
+      // Inicialmente verdadeiro
       expect(service.preferences.vibrationEnabled, true);
       
-      // Toggle to false
+      // Alterna para falso
       await service.toggleVibration();
       expect(service.preferences.vibrationEnabled, false);
       
-      // Toggle back to true
+      // Alterna de volta para verdadeiro
       await service.toggleVibration();
       expect(service.preferences.vibrationEnabled, true);
     });
 
-    test('should toggle sound preference', () async {
+    test('deve alternar preferência de som', () async {
       final service = PreferencesService();
       
-      // Wait for initialization
+      // Aguarda inicialização
       await Future.delayed(const Duration(milliseconds: 100));
       
-      // Initially true
+      // Inicialmente verdadeiro
       expect(service.preferences.soundEnabled, true);
       
-      // Toggle to false
+      // Alterna para falso
       await service.toggleSound();
       expect(service.preferences.soundEnabled, false);
       
-      // Toggle back to true
+      // Alterna de volta para verdadeiro
       await service.toggleSound();
       expect(service.preferences.soundEnabled, true);
     });
 
-    test('should toggle critical mode', () async {
+    test('deve alternar modo crítico', () async {
       final service = PreferencesService();
       
-      // Wait for initialization
+      // Aguarda inicialização
       await Future.delayed(const Duration(milliseconds: 100));
       
-      // Initially false
+      // Inicialmente falso
       expect(service.preferences.criticalMode, false);
       
-      // Toggle to true
+      // Alterna para verdadeiro
       await service.toggleCriticalMode();
       expect(service.preferences.criticalMode, true);
       
-      // Toggle back to false
+      // Alterna de volta para falso
       await service.toggleCriticalMode();
       expect(service.preferences.criticalMode, false);
     });
 
-    test('should save preferences correctly', () async {
+    test('deve salvar preferências corretamente', () async {
       final service = PreferencesService();
       
-      // Wait for initialization
+      // Aguarda inicialização
       await Future.delayed(const Duration(milliseconds: 100));
       
-      // Create new preferences
+      // Cria novas preferências
       final newPrefs = Preferences(
         vibrationEnabled: false,
         soundEnabled: false,
@@ -90,10 +94,10 @@ void main() {
         criticalMode: true,
       );
       
-      // Save the new preferences
+      // Salva as novas preferências
       await service.savePreferences(newPrefs);
       
-      // Check that preferences were updated
+      // Verifica que as preferências foram atualizadas
       expect(service.preferences.vibrationEnabled, false);
       expect(service.preferences.soundEnabled, false);
       expect(service.preferences.bannerEnabled, false);

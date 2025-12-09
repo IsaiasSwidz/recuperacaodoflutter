@@ -1,3 +1,7 @@
+/// Widget de Cartão de Status - Exibe informações de status
+/// 
+/// Este widget exibe informações de status com um ícone, título
+/// e indicador de status visual (cor e texto)
 import 'package:flutter/material.dart';
 
 class StatusCard extends StatelessWidget {

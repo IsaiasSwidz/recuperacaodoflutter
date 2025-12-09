@@ -1,24 +1,28 @@
+/// Testes do Modelo de Evento
+/// 
+/// Esta suíte de testes verifica a funcionalidade do modelo de evento,
+/// incluindo criação, conversão para mapa e representação em string
 import 'package:flutter_test/flutter_test.dart';
 import '../lib/models/event.dart';
 
 void main() {
-  group('Event Model Tests', () {
-    test('should create an event with all parameters', () {
+  group('Testes do Modelo de Evento', () {
+    test('deve criar um evento com todos os parâmetros', () {
       final now = DateTime.now();
       final event = Event(
         id: 1,
         type: 'ALERT',
         timestamp: now,
-        description: 'Test event',
+        description: 'Evento de teste',
       );
 
       expect(event.id, 1);
       expect(event.type, 'ALERT');
       expect(event.timestamp, now);
-      expect(event.description, 'Test event');
+      expect(event.description, 'Evento de teste');
     });
 
-    test('should create an event with only required parameters', () {
+    test('deve criar um evento com apenas parâmetros obrigatórios', () {
       final now = DateTime.now();
       final event = Event(
         type: 'INFO',
@@ -31,31 +35,31 @@ void main() {
       expect(event.description, null);
     });
 
-    test('should convert event to map and back', () {
+    test('deve converter evento para mapa e de volta', () {
       final now = DateTime.now();
       final originalEvent = Event(
         id: 1,
         type: 'WARNING',
         timestamp: now,
-        description: 'Converted event test',
+        description: 'Teste de evento convertido',
       );
 
-      // Convert to map
+      // Converte para mapa
       final map = originalEvent.toMap();
       expect(map['id'], 1);
       expect(map['type'], 'WARNING');
       expect(map['timestamp'], now.toIso8601String());
-      expect(map['description'], 'Converted event test');
+      expect(map['description'], 'Teste de evento convertido');
 
-      // Convert back from map
+      // Converte de volta a partir do mapa
       final newEvent = Event.fromMap(map);
       expect(newEvent.id, 1);
       expect(newEvent.type, 'WARNING');
       expect(newEvent.timestamp, now);
-      expect(newEvent.description, 'Converted event test');
+      expect(newEvent.description, 'Teste de evento convertido');
     });
 
-    test('should handle different event types', () {
+    test('deve lidar com diferentes tipos de evento', () {
       final alertEvent = Event(
         type: 'ALERT',
         timestamp: DateTime.now(),
@@ -74,15 +78,15 @@ void main() {
       expect(warningEvent.type, 'WARNING');
     });
 
-    test('should have correct string representation', () {
+    test('deve ter representação em string correta', () {
       final event = Event(
         id: 5,
         type: 'TEST',
         timestamp: DateTime(2023, 1, 1, 12, 0),
-        description: 'Test description',
+        description: 'Descrição de teste',
       );
 
-      final expectedString = 'Event(id: 5, type: TEST, timestamp: 2023-01-01 12:00:00.000, description: Test description)';
+      final expectedString = 'Evento(id: 5, tipo: TEST, timestamp: 2023-01-01 12:00:00.000, descricao: Descricao de teste)';
       expect(event.toString(), expectedString);
     });
   });

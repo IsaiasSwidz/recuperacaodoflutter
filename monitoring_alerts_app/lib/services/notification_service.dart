@@ -1,3 +1,8 @@
+/// Serviço de Notificação - Gerencia notificações locais
+/// 
+/// Esta classe gerencia todas as notificações locais do aplicativo,
+/// incluindo notificações normais e críticas que contornam as configurações
+/// de silêncio do dispositivo
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -5,6 +10,10 @@ class NotificationService {
   static final FlutterLocalNotificationsPlugin _notifications = 
       FlutterLocalNotificationsPlugin();
 
+  /// Inicializa o serviço de notificações
+  /// 
+  /// Configura os canais de notificação para Android e iOS
+  /// e solicita as permissões necessárias
   static Future<void> initialize() async {
     const AndroidInitializationSettings initializationSettingsAndroid = 
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -25,17 +34,20 @@ class NotificationService {
     await _notifications.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse payload) async {
-        // Handle notification tap
+        // Manipula o toque na notificação
         if (payload.payload != null) {
-          // Navigate to specific screen based on payload
+          // Navega para tela específica com base no payload
         }
       },
     );
 
-    // Request permissions
+    // Solicita permissões
     await Permission.notification.request();
   }
 
+  /// Exibe uma notificação normal
+  /// 
+  /// Esta notificação segue as configurações padrão do sistema
   static Future<void> showNotification({
     required String title,
     required String body,
@@ -45,7 +57,7 @@ class NotificationService {
         AndroidNotificationDetails(
       'monitoring_channel',
       'Monitoring Alerts',
-      channelDescription: 'Channel for monitoring and alert notifications',
+      channelDescription: 'Canal para notificações de monitoramento e alertas',
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',
@@ -75,6 +87,10 @@ class NotificationService {
     );
   }
 
+  /// Exibe uma notificação crítica
+  /// 
+  /// Esta notificação tenta contornar as configurações de silêncio
+  /// e modo Não Perturbe para garantir entrega imediata
   static Future<void> showCriticalNotification({
     required String title,
     required String body,
@@ -84,14 +100,14 @@ class NotificationService {
         AndroidNotificationDetails(
       'critical_channel',
       'Critical Alerts',
-      channelDescription: 'Channel for critical alerts that require immediate attention',
+      channelDescription: 'Canal para alertas críticos que requerem atenção imediata',
       importance: Importance.max,
       priority: Priority.max,
       ticker: 'ticker',
       playSound: true,
       enableVibration: true,
       vibrationPattern: Int64List.fromList([0, 1000, 500, 1000, 500, 1000]),
-      fullScreenIntent: true, // Shows notification as full screen intent
+      fullScreenIntent: true, // Mostra notificação como intent de tela cheia
     );
 
     const DarwinNotificationDetails iosPlatformChannelSpecifics = 
@@ -99,7 +115,7 @@ class NotificationService {
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
-      sound: 'critical_alert.aiff', // Custom critical sound
+      sound: 'critical_alert.aiff', // Som crítico personalizado
     );
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(

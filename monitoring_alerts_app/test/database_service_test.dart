@@ -1,3 +1,7 @@
+/// Testes do Serviço de Banco de Dados
+/// 
+/// Esta suíte de testes verifica a funcionalidade do serviço de banco de dados,
+/// incluindo inserção, recuperação e exclusão de eventos
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:mockito/mockito.dart';
@@ -5,49 +9,49 @@ import 'package:mockito/annotations.dart';
 import '../lib/services/database_service.dart';
 import '../lib/models/event.dart';
 
-// Generate mock annotations
+// Gera anotações mock
 @GenerateMocks([Database])
 import 'database_service_test.mocks.dart';
 
 void main() {
-  group('DatabaseService Tests', () {
+  group('Testes do Serviço de Banco de Dados', () {
     late DatabaseService databaseService;
 
     setUp(() async {
-      // Initialize the database service
+      // Inicializa o serviço de banco de dados
       await DatabaseService.initialize();
       databaseService = DatabaseService();
     });
 
-    test('should insert and retrieve an event', () async {
+    test('deve inserir e recuperar um evento', () async {
       final event = Event(
         type: 'ALERT',
         timestamp: DateTime.now(),
-        description: 'Test alert event',
+        description: 'Evento de alerta de teste',
       );
 
-      // Insert the event
+      // Insere o evento
       final id = await databaseService.insertEvent(event);
       expect(id, greaterThan(0));
 
-      // Retrieve all events
+      // Recupera todos os eventos
       final events = await databaseService.getAllEvents();
       expect(events.length, 1);
       expect(events.first.type, 'ALERT');
-      expect(events.first.description, 'Test alert event');
+      expect(events.first.description, 'Evento de alerta de teste');
     });
 
-    test('should store multiple events', () async {
+    test('deve armazenar múltiplos eventos', () async {
       final event1 = Event(
         type: 'ALERT',
         timestamp: DateTime.now(),
-        description: 'First alert',
+        description: 'Primeiro alerta',
       );
 
       final event2 = Event(
         type: 'INFO',
         timestamp: DateTime.now().add(const Duration(minutes: 1)),
-        description: 'Second alert',
+        description: 'Segundo alerta',
       );
 
       await databaseService.insertEvent(event1);
@@ -56,16 +60,16 @@ void main() {
       final events = await databaseService.getAllEvents();
       expect(events.length, 2);
 
-      // Check that events are sorted by timestamp (newest first)
-      expect(events[0].description, 'Second alert');
-      expect(events[1].description, 'First alert');
+      // Verifica que os eventos estão ordenados por timestamp (mais recente primeiro)
+      expect(events[0].description, 'Segundo alerta');
+      expect(events[1].description, 'Primeiro alerta');
     });
 
-    test('should clear all events', () async {
+    test('deve limpar todos os eventos', () async {
       final event = Event(
         type: 'ALERT',
         timestamp: DateTime.now(),
-        description: 'Test alert to be cleared',
+        description: 'Evento de teste a ser limpo',
       );
 
       await databaseService.insertEvent(event);
